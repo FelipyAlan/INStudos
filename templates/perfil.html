@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Usuário</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>Bem-vindo, {{ usuario.nome }}</h1>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <div class="container">
+            <section class="informacoes-pessoais">
+                <h2>Informações Pessoais</h2>
+                <p><strong>Nome:</strong> {{ usuario.nome }}</p>
+                <p><strong>Idade:</strong> {{ usuario.idade }}</p>
+                <p><strong>Curso:</strong> {{ usuario.curso }}</p>
+            </section>
+
+            <section class="acoes">
+                <h2>Ações</h2>
+                <a href="{{ url_for('preferencias') }}" class="botao">Configurar Preferências de Estudo</a>
+                <a href="{{ url_for('matches') }}" class="botao">Ver Matches</a>
+            </section>
+
+            <section class="notificacoes">
+                <h2>Notificações</h2>
+                {% if usuario.notificacoes %}
+                    {% for notificacao in usuario.notificacoes %}
+                        <div class="notificacao">
+                            <p>{{ notificacao.mensagem }}</p>
+                            <p>
+                                {% if notificacao.data_criacao %}
+                                    {{ notificacao.data_criacao.strftime('%d/%m/%Y %H:%M') }}
+                                {% else %}
+                                    Data não disponível
+                                {% endif %}
+                            </p>
+                            <form action="{{ url_for('marcar_notificacao_lida', notificacao_id=notificacao.id) }}" method="POST">
+                                <button type="submit" class="botao">Marcar como lida</button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Sem notificações no momento.</p>
+                {% endif %}
+            </section>
+
+            <section class="postagens">
+                <h2>Suas Postagens</h2>
+                <form action="{{ url_for('postar') }}" method="POST" class="form-postagem">
+                    <input type="hidden" name="usuario_id" value="{{ usuario.id }}">
+                    <label for="titulo">Título:</label>
+                    <input type="text" id="titulo" name="titulo" required>
+                    
+                    <label for="conteudo">Conteúdo:</label>
+                    <textarea id="conteudo" name="conteudo" required></textarea>
+                    
+                    <button type="submit" class="botao">Postar</button>
+                </form>
+
+                {% if usuario.postagens %}
+                    {% for postagem in usuario.postagens %}
+                        <div class="postagem">
+                            <h3>{{ postagem.titulo }}</h3>
+                            <p>{{ postagem.conteudo }}</p>
+                            <p><small>Criado em: {{ postagem.data_criacao.strftime('%d/%m/%Y %H:%M') if postagem.data_criacao else "Data não disponível" }}</small></p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Você ainda não tem postagens.</p>
+                {% endif %}
+            </section>
+        </div>
+    </main>
+</body>
+</html>
+
+
+
+
+
+
+
+

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Perfil de {{ usuario.nome }}</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Perfil de {{ usuario.nome }}</h1>
+        <div class="perfil-info">
+            <p><strong>Nome:</strong> {{ usuario.nome }}</p>
+            <p><strong>Idade:</strong> {{ usuario.idade }}</p>
+            <p><strong>Curso:</strong> {{ usuario.curso }}</p>
+            <p><strong>Matérias de Interesse:</strong> {{ usuario.materias_interesse }}</p>
+            <!-- Adicione mais campos conforme necessário -->
+        </div>
+        <a href="{{ url_for('matches') }}">Voltar para Matches</a>
+    </div>
+</body>
+</html>

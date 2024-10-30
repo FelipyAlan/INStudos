@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Configurar Preferências de Estudo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Configurar Preferências de Estudo</h1>
+
+    <form method="POST">
+        <input type="text" name="materia" placeholder="Digite a matéria" required>
+        <button type="submit">Adicionar Preferência</button>
+    </form>
+
+    <h2>Suas Preferências:</h2>
+    <ul>
+        {% for preferencia in preferencias %}
+            <li>{{ preferencia.materia }}</li>
+        {% else %}
+            <li>Nenhuma preferência cadastrada.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ url_for('perfil', usuario_id=usuario.id) }}">Voltar ao Perfil</a>
+</body>
+</html>

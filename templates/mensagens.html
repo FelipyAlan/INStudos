@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Mensagens</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Conversas com {{ usuario_destinatario.nome }}</h1>
+
+        <div class="mensagens">
+            {% for mensagem in mensagens %}
+                <div class="mensagem {% if mensagem.remetente_id == session['usuario_id'] %}minha{% endif %}">
+                    <p><strong>{{ mensagem.remetente.nome }}:</strong> {{ mensagem.conteudo }}</p>
+                    <p><small>{{ mensagem.data_envio.strftime('%d/%m/%Y %H:%M:%S') }}</small></p>
+                </div>
+            {% else %}
+                <p>Nenhuma mensagem encontrada.</p>
+            {% endfor %}
+        </div>
+
+        <form method="POST">
+            <textarea name="conteudo" placeholder="Digite sua mensagem..." required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+
+        <a href="{{ url_for('matches') }}">Voltar para Matches</a>
+    </div>
+</body>
+</html>
+
+
